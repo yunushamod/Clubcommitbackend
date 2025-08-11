@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Commit.Api.ExceptionHandlers;
 using Commit.Api.Extensions;
 using Commit.Data;
@@ -16,9 +17,12 @@ builder.Host.UseSerilog(logger);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
+builder.Services.AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.ConfigureJwtAuthentication(builder.Configuration);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddAuthorization();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
