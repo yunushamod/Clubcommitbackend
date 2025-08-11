@@ -1,0 +1,40 @@
+name: Build and Deploy to SmarterASP.NET
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Publish project
+        run: dotnet publish ./Commit.API/Commit.API.csproj -c Release -o ./publish
+
+      - name: Deploy to SmarterASP.NET via Web Deploy
+        shell: pwsh
+        run: |
+          & "${env:ProgramFiles}\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
+            -source:contentPath="${{ github.workspace }}\publish" `
+            -dest:'contentPath=${{ secrets.SITE_NAME }},computerName=${{ secrets.SERVER_URL }}/msdeploy.axd?site=${{ secrets.SITE_NAME }},userName=${{ secrets.SERVER_USERNAME }},password=${{ secrets.SERVER_PASSWORD }},authType=Basic' `
+            -verb:sync `
+            -allowUntrusted `
+            -enableRule:DoNotDeleteRule `
+            -enableRule:AppOffline

@@ -22,4 +22,12 @@
       <ProjectReference Include="..\Commit.Services\Commit.Services.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="web.config">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
