@@ -19,6 +19,8 @@ public class ApplicationUser : BaseModel
     public required string PasswordHash { get; set; }
     [Required, MaxLength(300)]
     public required string Location { get; init; }
+    [MaxLength(300)]
+    public string? ProfileImageUrl { get; init; }
     [Required]
     public required decimal Latitude { get; init; }
     [Required]
