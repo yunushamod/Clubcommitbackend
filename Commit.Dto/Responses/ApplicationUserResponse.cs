@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using AutoMapper;
 using Commit.Data.Models;
 namespace Commit.Dto.Responses;
@@ -12,4 +13,12 @@ public class ApplicationUserResponse : BaseResponse
     public DateTime? LastLogin { get; set; }
     public DateTime? LastPasswordReset { get; set; }
     public DateTime? LastPasswordChange { get; set; }
+    public required string Location { get; init; }
+    public required decimal Latitude { get; init; }
+    public required decimal Longitude { get; init; }
+    public required Gender Gender { get; init; }
+    [JsonIgnore]
+    public required string Audience { get; init; }
+    public Gender[] TargetGenders => Audience.Split(", ", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+        .Select(Enum.Parse<Gender>).ToArray();
 }

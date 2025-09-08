@@ -3,7 +3,8 @@ using Commit.Data.Models;
 namespace Commit.Dto.Responses;
 
 [AutoMap(typeof(ApplicationUser))]
-public class SignInResponse : ApplicationUserResponse
+public class SignInResponse
 {
-    public string? AccessToken { get; set; }
+    public required ApplicationUserResponse User { get; init; }
+    public required string AccessToken { get; set; }
 }

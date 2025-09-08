@@ -4,6 +4,7 @@ using Commit.Api.Extensions;
 using Commit.Data;
 using Commit.Services.Implementations;
 using Commit.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,8 @@ builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddAuthorization();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped(typeof(IPasswordHasher<>), typeof(PasswordHasher<>));
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

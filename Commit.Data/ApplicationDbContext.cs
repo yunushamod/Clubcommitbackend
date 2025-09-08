@@ -7,6 +7,7 @@ namespace Commit.Data;
 public class ApplicationDbContext(IConfiguration configuration) : DbContext
 {
     public required DbSet<ApplicationUser> ApplicationUsers { get; init; }
+    public required DbSet<Otp> Otp { get; init; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);

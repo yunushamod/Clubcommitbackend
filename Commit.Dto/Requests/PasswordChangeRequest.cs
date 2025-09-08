@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 namespace Commit.Dto.Requests;
 
-public class PasswordChangeRequest : EmailRequest
+public class PasswordChangeRequest
 {
     [Required]
     public required string CurrentPassword { get; init; }
